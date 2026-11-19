@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080b1c">
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://signal-app-ad9bd-default-rtdb.asia-southeast1.firebasedatabase.app" crossorigin>
+<link rel="dns-prefetch" href="//www.gstatic.com">
+<title>BETBAJI777 • NX Admin Control</title>
+<style>
+:root{--bg:#060918;--panel:#10162b;--panel2:#151d37;--line:#283454;--text:#f4f7ff;--muted:#9aa8c7;--cyan:#31e7ff;--purple:#9c6bff;--pink:#ff4db8;--green:#34e6a2;--red:#ff5c78;--gold:#ffd66b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;color:var(--text);min-height:100vh;overflow-x:hidden}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.hidden{display:none!important}
+
+/* ANIMATED COLORFUL AMBIENT BACKGROUND FOR MAIN PANEL */
+.ambient-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+  radial-gradient(circle at 12% 15%, rgba(49,231,255,.14) 0%, transparent 38%),
+  radial-gradient(circle at 88% 20%, rgba(255,77,184,.14) 0%, transparent 40%),
+  radial-gradient(circle at 50% 88%, rgba(156,107,255,.16) 0%, transparent 45%),
+  #060918;
+  animation:bgPulse 9s ease-in-out infinite alternate}
+@keyframes bgPulse{
+  0%{filter:hue-rotate(0deg) brightness(1)}
+  50%{filter:hue-rotate(18deg) brightness(1.08)}
+  100%{filter:hue-rotate(-15deg) brightness(1.03)}
+}
+
+/* PREMIUM GLOWING & SHIMMER LOGIN SCREEN */
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:22px;position:relative;overflow:hidden;background:radial-gradient(circle at 20% 20%,#1c1347 0%,transparent 45%),radial-gradient(circle at 80% 80%,#3b0e38 0%,transparent 45%),#060814}
+.sparkle-bg{position:absolute;inset:0;background-image:radial-gradient(#31e7ff 1px,transparent 1px),radial-gradient(#ff4db8 1px,transparent 1px),radial-gradient(#ffd66b 1px,transparent 1px);background-size:90px 90px,130px 130px,170px 170px;background-position:0 0,40px 60px,80px 20px;opacity:.25;animation:twinkle 6s ease-in-out infinite alternate;pointer-events:none}
+@keyframes twinkle{0%{opacity:.15;transform:scale(1)}50%{opacity:.4}100%{opacity:.2;transform:scale(1.03)}}
+
+.login-box-glow{position:relative;width:min(430px,100%);border-radius:28px;padding:3px;background:linear-gradient(125deg,#31e7ff,#9c6bff,#ff4db8,#ffd66b,#34e6a2,#31e7ff);background-size:300% 300%;animation:borderShimmer 4s ease infinite;box-shadow:0 0 45px rgba(156,107,255,.35),0 0 80px rgba(49,231,255,.15)}
+@keyframes borderShimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+.login-card{width:100%;padding:32px 26px;border-radius:25px;background:linear-gradient(155deg,rgba(19,25,52,.96),rgba(9,13,30,.98));backdrop-filter:blur(16px);position:relative;overflow:hidden;text-align:center}
+.login-card:before{content:"";position:absolute;inset:-80% auto -80% -40%;width:40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);transform:rotate(25deg);animation:shine 4.5s linear infinite;pointer-events:none}
+
+/* NX PREMIUM LOGO */
+.nx-logo-wrap{display:inline-flex;align-items:center;justify-content:center;width:76px;height:76px;border-radius:22px;background:linear-gradient(135deg,#0f1736,#1d1442);border:1.5px solid rgba(49,231,255,.5);box-shadow:0 0 28px rgba(49,231,255,.4),inset 0 0 18px rgba(255,77,184,.35);margin-bottom:16px;position:relative;animation:floatLogo 3s ease-in-out infinite}
+@keyframes floatLogo{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.nx-logo-text{font-size:32px;font-weight:900;letter-spacing:1.5px;background:linear-gradient(90deg,#31e7ff,#ffffff,#ff4db8,#ffd66b);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:textShine 3s linear infinite;font-family:'Segoe UI',system-ui,sans-serif}
+@keyframes textShine{to{background-position:200% center}}
+
+h1,h2,h3,p{margin-top:0}
+.login-card h1{font-size:24px;margin-bottom:6px;background:linear-gradient(90deg,#fff,#b9d6ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.muted{color:var(--muted);font-size:13px;line-height:1.6}
+.field{display:flex;flex-direction:column;gap:7px;margin:16px 0;text-align:left}
+.field label{font-size:13px;color:#c6d0ee;font-weight:600}
+.field input,.field select,.field textarea{width:100%;border:1px solid #344163;border-radius:13px;padding:13px 14px;background:#080d1f;color:var(--text);outline:none;transition:.25s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--cyan);box-shadow:0 0 15px rgba(49,231,255,.25)}
+
+.btn-shimmer{width:100%;padding:13px 16px;border-radius:13px;font-weight:800;font-size:15px;color:#050a18;background:linear-gradient(90deg,#31e7ff,#34e6a2,#ffd66b,#31e7ff);background-size:250% auto;animation:btnFlow 3.5s linear infinite;box-shadow:0 8px 25px rgba(49,231,255,.35);transition:.25s;margin-top:6px}
+@keyframes btnFlow{0%{background-position:0% 50%}100%{background-position:250% 50%}}
+.btn-shimmer:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.btn-shimmer:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+.btn{padding:11px 15px;border-radius:12px;font-weight:800;color:#071021;background:linear-gradient(100deg,var(--cyan),#9cf7ff);box-shadow:0 7px 22px #31e7ff20;transition:.2s}.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}.btn.secondary{color:#f4f7ff;background:#252e4e;border:1px solid #3b496f;box-shadow:none}.btn.purple{color:#fff;background:linear-gradient(100deg,#7656f7,#bd69ff)}.btn.green{color:#062015;background:linear-gradient(100deg,#31dfa0,#a4ffcf)}.btn.red{color:#fff;background:linear-gradient(100deg,#ff496f,#ff7d89)}.btn.small{font-size:12px;padding:8px 10px;border-radius:9px}
+.notice{padding:11px 12px;border-radius:12px;border:1px solid #594c25;background:#332b18;color:#ffe7a2;font-size:12px;line-height:1.6;margin-top:14px}
+
+/* MAIN ADMIN PANEL STYLES WITH COLORFUL ANIMATIONS */
+.app{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}
+.sidebar{padding:22px 16px;background:rgba(9,13,32,.86);backdrop-filter:blur(14px);border-right:1px solid rgba(69,85,138,.45);position:sticky;top:0;height:100vh;overflow:auto}
+.brand{display:flex;align-items:center;gap:11px;padding:5px 7px 22px}
+.brand .logo{width:44px;height:44px;border-radius:14px;margin:0;font-size:17px;font-weight:900;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--purple),var(--pink));background-size:200% 200%;animation:borderShimmer 4s ease infinite;color:#fff;box-shadow:0 0 22px rgba(138,104,255,.55)}
+.brand strong{display:block;letter-spacing:.5px;background:linear-gradient(90deg,#fff,#9cf7ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.brand small{color:var(--cyan);font-size:10px;letter-spacing:2px}
+
+.nav{display:grid;gap:8px}
+.nav button{text-align:left;color:#b7c2e1;padding:13px 14px;background:transparent;border:1px solid transparent;border-radius:13px;display:flex;align-items:center;gap:11px;transition:.25s}
+.nav button.active,.nav button:hover{color:white;background:linear-gradient(100deg,rgba(49,231,255,.16),rgba(156,107,255,.18));border-color:rgba(49,231,255,.45);box-shadow:inset 3px 0 var(--cyan),0 4px 15px rgba(49,231,255,.12);transform:translateX(2px)}
+.nav .ico{width:26px;height:26px;display:grid;place-items:center;border-radius:8px;background:#242c4c}
+
+.sidebar-bottom{position:absolute;left:16px;right:16px;bottom:18px}.sidebar-bottom .muted{font-size:11px}
+.main{min-width:0;padding:24px clamp(14px,3vw,34px) 50px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
+.topbar h1{font-size:clamp(21px,3vw,29px);margin:0;background:linear-gradient(90deg,#ffffff,#31e7ff,#ff4db8);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:textShine 5s linear infinite}
+.topbar p{margin:5px 0 0;color:var(--muted);font-size:13px}
+.live{display:flex;align-items:center;gap:8px;color:#a9ffe0;font-size:12px;border:1px solid rgba(52,230,162,.45);background:linear-gradient(120deg,rgba(18,56,47,.85),rgba(16,42,66,.85));padding:9px 14px;border-radius:30px;white-space:nowrap;box-shadow:0 0 20px rgba(52,230,162,.2)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);animation:pulse 1.4s infinite}
+
+.page{display:none;animation:fadeup .35s ease}.page.active{display:block}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+
+/* COLORFUL ANIMATED STAT CARDS & PANELS */
+.stat,.card{background:linear-gradient(145deg,rgba(21,29,55,.88),rgba(12,18,38,.94));backdrop-filter:blur(12px);border:1px solid rgba(68,86,140,.45);border-radius:20px;box-shadow:0 12px 35px rgba(0,0,0,.35);position:relative;overflow:hidden;transition:.3s}
+.stat:hover,.card:hover{border-color:rgba(49,231,255,.5);box-shadow:0 14px 40px rgba(49,231,255,.14)}
+.stat{padding:18px}
+.stat:before{content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);transform:skewX(-20deg);animation:cardSweep 6s infinite}
+@keyframes cardSweep{0%{left:-100%}40%,100%{left:160%}}
+.stat:after{content:"";position:absolute;right:-18px;top:-24px;width:85px;height:85px;border-radius:50%;background:var(--glow,#31e7ff);filter:blur(34px);opacity:.35;animation:glowFloat 4s ease-in-out infinite alternate}
+@keyframes glowFloat{0%{transform:scale(1);opacity:.28}100%{transform:scale(1.25);opacity:.48}}
+
+.stat .slabel{font-size:12px;color:var(--muted)}
+.stat .value{font-size:clamp(21px,2.5vw,30px);font-weight:900;margin:8px 0 2px;letter-spacing:-.5px;background:linear-gradient(90deg,#fff,#d6f7ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat .foot{font-size:11px;color:#a4b2d4}
+.stat:nth-child(2){--glow:var(--purple);animation-delay:.5s}
+.stat:nth-child(3){--glow:var(--green);animation-delay:1s}
+.stat:nth-child(4){--glow:var(--pink);animation-delay:1.5s}
+
+.promo-banner{margin-bottom:18px;border:1px solid rgba(52,230,162,.55);background:linear-gradient(120deg,rgba(32,201,151,.18),rgba(156,107,255,.15),rgba(49,231,255,.15));background-size:200% 200%;animation:borderShimmer 6s ease infinite;box-shadow:0 8px 30px rgba(32,201,151,.15)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{padding:19px;margin-bottom:16px;min-width:0}.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.card h2{font-size:16px;margin:0}.pill{font-size:11px;border-radius:30px;padding:5px 9px;background:#222b4a;color:#cbd5f5;border:1px solid #39466d}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:650px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid #27314e;font-size:12px;vertical-align:middle}th{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#94a4c9;font-weight:700}td{color:#e2e8fa}tbody tr:hover{background:#ffffff08}.status{display:inline-flex;align-items:center;gap:6px;border-radius:30px;padding:5px 8px;font-size:10px;font-weight:800;background:#302a1a;color:#ffe08a}.status.approved,.status.success{background:#123a2f;color:#7df7c1}.status.rejected,.status.failed{background:#421e2a;color:#ff9aaa}.status.processing{background:#22284a;color:#b9bfff}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}.filters input,.filters select{background:#0a1022;color:white;border:1px solid #33405f;padding:10px 11px;border-radius:10px;min-width:120px}.empty{padding:24px;text-align:center;color:var(--muted);font-size:13px}
+.settings-method{border:1px solid #343e63;border-radius:16px;padding:16px;margin-bottom:14px;background:#0c1328}.method-title{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-weight:900}.method-badge{width:35px;height:35px;border-radius:11px;display:grid;place-items:center;font-size:12px;color:white;background:linear-gradient(135deg,#e83e8c,#8d3ef1)}.method-badge.nagad{background:linear-gradient(135deg,#ef3340,#ff7e3d)}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.row-actions{display:flex;gap:7px;flex-wrap:wrap}.amount{font-weight:900;color:#9dffe0}
+
+/* PREMIUM CENTER SCREEN POPUP MODAL */
+.popup-overlay{position:fixed;inset:0;background:rgba(4,7,18,.72);backdrop-filter:blur(8px);display:grid;place-items:center;padding:20px;z-index:9999;animation:fadeInOverlay .22s ease}
+@keyframes fadeInOverlay{from{opacity:0}to{opacity:1}}
+.popup-glow{width:min(380px,100%);border-radius:26px;padding:2.5px;background:linear-gradient(130deg,#31e7ff,#34e6a2,#ffd66b,#ff4db8,#9c6bff,#31e7ff);background-size:300% 300%;animation:borderShimmer 3.5s ease infinite, popBounce .34s cubic-bezier(.18,.89,.32,1.28);box-shadow:0 20px 60px rgba(0,0,0,.75),0 0 40px rgba(49,231,255,.35)}
+.popup-glow.error{background:linear-gradient(130deg,#ff496f,#ff922b,#ff4db8,#ff496f);background-size:300% 300%;box-shadow:0 20px 60px rgba(0,0,0,.75),0 0 40px rgba(255,73,111,.4)}
+.popup-glow.confirm{background:linear-gradient(130deg,#ffd66b,#31e7ff,#9c6bff,#ff4db8,#ffd66b);background-size:300% 300%;box-shadow:0 20px 60px rgba(0,0,0,.75),0 0 40px rgba(255,214,107,.35)}
+@keyframes popBounce{0%{opacity:0;transform:scale(.75) translateY(18px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+.popup-box{background:linear-gradient(160deg,#131b3a,#0a0f24);border-radius:24px;padding:26px 22px;text-align:center;position:relative;overflow:hidden}
+.popup-box:before{content:"";position:absolute;inset:-60% auto -60% -40%;width:40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transform:rotate(25deg);animation:shine 3s linear infinite;pointer-events:none}
+.popup-icon{width:64px;height:64px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;font-size:30px;font-weight:900;background:linear-gradient(135deg,rgba(52,230,162,.22),rgba(49,231,255,.22));border:2px solid #34e6a2;color:#7df7c1;box-shadow:0 0 25px rgba(52,230,162,.45);animation:iconPop .45s ease}
+.popup-glow.error .popup-icon{background:linear-gradient(135deg,rgba(255,73,111,.25),rgba(255,146,43,.2));border-color:#ff5c78;color:#ff8fa3;box-shadow:0 0 25px rgba(255,92,120,.5)}
+.popup-glow.confirm .popup-icon{background:linear-gradient(135deg,rgba(255,214,107,.22),rgba(49,231,255,.22));border-color:#ffd66b;color:#ffe08a;box-shadow:0 0 25px rgba(255,214,107,.45)}
+@keyframes iconPop{0%{transform:scale(0) rotate(-35deg)}70%{transform:scale(1.15) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
+.popup-title{font-size:19px;font-weight:900;margin:0 0 8px;background:linear-gradient(90deg,#fff,#9cf7ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.popup-glow.error .popup-title{background:linear-gradient(90deg,#fff,#ffb3c1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.popup-glow.confirm .popup-title{background:linear-gradient(90deg,#fff,#ffe699);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.popup-msg{font-size:14px;color:#dbe5ff;line-height:1.65;margin:0 0 18px}
+.popup-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.popup-btn{padding:10px 24px;border-radius:12px;font-weight:800;font-size:13px;color:#061124;background:linear-gradient(90deg,#31e7ff,#34e6a2);box-shadow:0 6px 20px rgba(52,230,162,.35);transition:.2s}
+.popup-glow.error .popup-btn{color:#fff;background:linear-gradient(90deg,#ff496f,#ff7d89);box-shadow:0 6px 20px rgba(255,73,111,.35)}
+.popup-glow.confirm .popup-btn{color:#061124;background:linear-gradient(90deg,#34e6a2,#31e7ff);box-shadow:0 6px 20px rgba(52,230,162,.35)}
+.popup-cancel-btn{padding:10px 20px;border-radius:12px;font-weight:800;font-size:13px;color:#e2e8fa;background:#232d4d;border:1px solid #3c4b7a;transition:.2s}
+.popup-btn:hover,.popup-cancel-btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.popup-bar{position:absolute;bottom:0;left:0;height:3.5px;background:linear-gradient(90deg,#31e7ff,#34e6a2,#ffd66b);width:100%;animation:barShrink 2.8s linear forwards}
+.popup-glow.error .popup-bar{background:linear-gradient(90deg,#ff496f,#ff922b)}
+@keyframes barShrink{from{width:100%}to{width:0%}}
+
+@keyframes shine{0%{left:-60%}100%{left:140%}}@keyframes pulse{50%{opacity:.35;transform:scale(.8)}}@keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@media(max-width:1050px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.app{grid-template-columns:210px minmax(0,1fr)}.sidebar{padding:18px 12px}}@media(max-width:760px){.app{display:block}.sidebar{position:static;height:auto;padding:10px 12px;border-right:0;border-bottom:1px solid #222d4c}.brand{padding:4px 5px 12px}.brand .logo{width:37px;height:37px}.nav{display:flex;overflow:auto;gap:7px}.nav button{flex:0 0 auto;padding:9px 11px;font-size:12px;white-space:nowrap}.nav .ico{width:23px;height:23px}.sidebar-bottom{display:none}.main{padding:18px 12px 35px}.topbar{align-items:flex-start}.live{font-size:10px;padding:7px 9px}.grid2,.two{grid-template-columns:1fr}.card{padding:14px}.stats{gap:9px}.stat{padding:13px;border-radius:15px}.stat .value{font-size:23px}.topbar h1{font-size:22px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+.request-cards{display:grid;grid-template-columns:1fr;gap:13px;min-width:0}.request-card{min-width:0;border:1px solid #303c60;background:linear-gradient(145deg,#151e39,#0c1227);border-radius:16px;padding:15px;overflow-wrap:anywhere}.request-card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.request-card-amount{font-size:23px;font-weight:900;color:#9dffe0;margin:8px 0 13px}.request-card-amount small{font-size:12px;color:#a7b4d3}.request-card-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.request-card-grid>div{min-width:0;display:flex;flex-direction:column;gap:4px}.request-card small,.request-card-meta{color:#9aa8c7;font-size:11px}.request-card code{color:#a9dfff;overflow-wrap:anywhere;font-size:11px}.request-card-info{line-height:1.8;margin-top:12px;padding:10px;border-radius:10px;background:#080e20;color:#dbe5ff;font-size:12px}.request-card-meta{margin-top:10px}.request-admin-message{margin-top:10px;padding:9px;border-radius:9px;background:#421e2a;color:#ffb6c4;font-size:12px}.request-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.request-actions .btn{flex:1 1 120px;white-space:normal;line-height:1.35;min-height:42px}
+</style>
+</head>
+<body>
+<div class="ambient-bg"></div>
+
+<!-- PREMIUM NX LOGIN SCREEN -->
+<div id="login" class="login-wrap">
+  <div class="sparkle-bg"></div>
+  <div class="login-box-glow">
+    <form class="login-card" id="loginForm">
+      <div class="nx-logo-wrap">
+        <span class="nx-logo-text">NX</span>
+      </div>
+      <h1>BETBAJI777 Admin</h1>
+      <p class="muted">সঠিক পাসওয়ার্ড দিয়ে লগইন করুন।</p>
+      
+      <div class="field">
+        <label for="adminPasswordInput">Password</label>
+        <input id="adminPasswordInput" type="password" autocomplete="current-password" placeholder="Enter your access password" required>
+      </div>
+      
+      <button class="btn-shimmer" id="loginSubmitBtn" type="submit">প্যানেলে প্রবেশ করুন →</button>
+    </form>
+  </div>
+</div>
+
+<!-- MAIN ADMIN PANEL -->
+<div id="app" class="app hidden">
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">NX</div><div><strong>BETBAJI777</strong><small>ADMIN CONTROL</small></div></div>
+    <nav class="nav">
+      <button class="active" data-page="dashboard"><span class="ico">▦</span> ড্যাশবোর্ড</button>
+      <button data-page="requests"><span class="ico">⇄</span> ডিপোজিট / উইথড্র</button>
+      <button data-page="payments"><span class="ico">৳</span> পেমেন্ট নম্বর</button>
+      <button data-page="balance" style="background:linear-gradient(100deg,#087f5b,#20c997);color:#fff;font-weight:800;box-shadow:0 5px 18px #20c99735"><span class="ico">＋</span> 💰 ব্যালেন্স এড করুন</button>
+      <button data-page="turnover" type="button"><span class="ico">↻</span> UID টার্নওভার</button>
+      <button data-page="account-tools" type="button"><span class="ico">🔐</span> UID অ্যাকাউন্ট / পাসওয়ার্ড রিসেট</button>
+    </nav>
+    <div class="sidebar-bottom"><p class="muted">Realtime Server • NX Security</p><button class="btn secondary small" id="logoutBtn">লগআউট</button></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><h1 id="pageTitle">ড্যাশবোর্ড</h1><p>ওয়েবসাইটের সঙ্গে লাইভ ডেটা সিঙ্ক করা হচ্ছে</p></div><div class="live"><span class="dot"></span><span id="connectionText">সংযোগ হচ্ছে…</span></div></header>
+
+    <section id="page-dashboard" class="page active">
+      <div class="stats">
+        <div class="stat"><div class="slabel">মোট কাস্টমার</div><div class="value" id="statUsers">—</div><div class="foot">সক্রিয় অ্যাকাউন্ট</div></div>
+        <div class="stat"><div class="slabel">পেন্ডিং ডিপোজিট</div><div class="value" id="statDeposits">—</div><div class="foot">অনুমোদনের অপেক্ষায়</div></div>
+        <div class="stat"><div class="slabel">পেন্ডিং উইথড্র</div><div class="value" id="statWithdrawals">—</div><div class="foot">প্রসেস করার অপেক্ষায়</div></div>
+        <div class="stat"><div class="slabel">কাস্টমারদের মোট ব্যালেন্স</div><div class="value" id="statBalance">৳—</div><div class="foot">সর্বমোট ব্যালেন্স</div></div>
+      </div>
+      <div class="card promo-banner"><div class="card-head"><h2>💰 কাস্টমারের ব্যালেন্স যোগ করতে চান?</h2><button class="btn green" data-goto="balance">এখানে ক্লিক করুন →</button></div><p class="muted">কাস্টমারের UID লিখে টাকার পরিমাণ দিন, তারপর “ব্যালেন্স যোগ করুন (+)” নির্বাচন করে ব্যালেন্স আপডেট করুন।</p></div>
+      <div class="grid2">
+        <div class="card"><div class="card-head"><h2>সাম্প্রতিক ডিপোজিট</h2><button class="btn small secondary" data-goto="requests">সব দেখুন</button></div><div id="recentDeposits" class="table-wrap"><div class="empty">ডেটা লোড হচ্ছে…</div></div></div>
+        <div class="card"><div class="card-head"><h2>সাম্প্রতিক উইথড্র</h2><button class="btn small secondary" data-goto="requests">সব দেখুন</button></div><div id="recentWithdrawals" class="table-wrap"><div class="empty">ডেটা লোড হচ্ছে…</div></div></div>
+      </div>
+    </section>
+
+    <section id="page-requests" class="page">
+      <div class="card">
+        <div class="card-head"><h2>কাস্টমার রিকোয়েস্ট</h2><div class="row-actions"><button class="btn secondary small" id="refreshRequestsBtn" type="button">রিফ্রেশ</button><span class="pill" id="requestCount">0 রিকোয়েস্ট</span></div></div>
+        <div class="filters"><select id="requestType"><option value="all">সব রিকোয়েস্ট</option><option value="deposit">শুধু ডিপোজিট</option><option value="withdrawal">শুধু উইথড্র</option></select><select id="requestStatus"><option value="pending">পেন্ডিং</option><option value="all">সব স্ট্যাটাস</option><option value="approved">অনুমোদিত</option><option value="rejected">রিজেক্ট</option><option value="processing">প্রসেসিং</option></select><input id="requestSearch" placeholder="UID / TrxID খুঁজুন"></div>
+        <div id="allRequests" class="table-wrap"><div class="empty">রিকোয়েস্ট লোড হচ্ছে…</div></div>
+      </div>
+    </section>
+
+    <section id="page-payments" class="page">
+      <div class="card"><div class="card-head"><h2>বিকাশ ও নগদ নম্বর সেটিংস</h2><span class="pill">Live website settings</span></div>
+        <p class="muted">Personal নম্বর শুধু Personal গেটওয়েতে এবং Agent নম্বর শুধু Agent গেটওয়েতে দেখাবে। একাধিক নম্বর দিতে কমা দিয়ে আলাদা করুন।</p>
+        <div class="settings-method">
+          <div class="method-title"><span class="method-badge">bK</span> বিকাশ</div>
+          <div class="two">
+            <div class="field"><label>বিকাশ Personal নম্বর</label><input id="bkashPersonal" placeholder="যেমন: 01XXXXXXXXX, 01XXXXXXXXX"></div>
+            <div class="field"><label>বিকাশ Agent নম্বর</label><input id="bkashAgent" placeholder="যেমন: 01XXXXXXXXX"></div>
+          </div>
+        </div>
+        <div class="settings-method">
+          <div class="method-title"><span class="method-badge nagad">N</span> নগদ</div>
+          <div class="two">
+            <div class="field"><label>নগদ Personal নম্বর</label><input id="nagadPersonal" placeholder="যেমন: 01XXXXXXXXX"></div>
+            <div class="field"><label>নগদ Agent নম্বর</label><input id="nagadAgent" placeholder="যেমন: 01XXXXXXXXX"></div>
+          </div>
+        </div>
+        <div class="row-actions"><button class="btn" id="savePayments">সেটিংস সেভ করুন</button><button class="btn secondary" id="reloadPayments">সার্ভার থেকে রিলোড</button></div>
+      </div>
+    </section>
+
+    <section id="page-balance" class="page">
+      <div class="grid2">
+        <div class="card"><div class="card-head"><h2>কাস্টমার ব্যালেন্স এড / ডিডাক্ট</h2><span class="pill">UID required</span></div>
+          <form id="balanceForm">
+            <div class="field"><label>কাস্টমার UID</label><div style="display:flex;gap:8px"><input id="balanceUid" required placeholder="ওয়েবসাইটের UID লিখুন" style="flex:1;min-width:0"><button class="btn secondary" type="button" id="lookupBalanceBtn">ব্যালেন্স দেখুন</button></div></div>
+            <div id="balanceLookupResult" class="notice" style="display:none;margin:0 0 14px"></div>
+            <div class="field"><label>পরিমাণ (৳)</label><input id="balanceAmount" required type="number" min="0.01" step="0.01" placeholder="যেমন: 500"></div>
+            <div class="field"><label>অ্যাকশন</label><select id="balanceAction"><option value="add">ব্যালেন্স যোগ করুন (+)</option><option value="subtract">ব্যালেন্স কমান (−)</option></select></div>
+            <div class="field"><label>নোট / কারণ</label><input id="balanceNote" placeholder="যেমন: Admin adjustment"></div>
+            <button class="btn green" type="submit">ব্যালেন্স আপডেট করুন</button>
+          </form>
+        </div>
+        <div class="card"><div class="card-head"><h2>দ্রুত নির্দেশনা</h2></div><p class="muted">১. কাস্টমারের সঠিক UID দিন।<br><br>২. যোগ বা কমানোর আগে বর্তমান ব্যালেন্স যাচাই করুন।<br><br>৩. প্রতিটি অ্যাডজাস্টমেন্ট সিস্টেম লগে সংরক্ষিত হয়।<br><br>৪. ডিপোজিট অনুমোদন করলে জমা অর্থ (এবং রিকোয়েস্টে bonusAmount থাকলে সেটিও) ব্যালেন্সে যোগ হবে। উইথড্র রিজেক্ট করলে কাটা অর্থ ফেরত যাবে।</p></div>
+      </div>
+    </section>
+
+    <section id="page-turnover" class="page">
+      <div class="grid2">
+        <div class="card"><div class="card-head"><h2>UID টার্নওভার সিস্টেম</h2><span class="pill">UID required</span></div>
+          <form id="turnoverForm">
+            <div class="field"><label>কাস্টমার UID</label><input id="turnoverUid" required placeholder="ওয়েবসাইটের UID লিখুন"></div>
+            <div class="field"><label>কাস্টমারের জন্য মেসেজ</label><textarea id="turnoverMessage" rows="3" placeholder="যেমন: আপনার ৳২০০০ টার্নওভার বাকি রয়েছে। এটি পূরণ করে উত্তোলন করুন।"></textarea></div>
+            <div class="field"><label>কত টাকা টার্নওভার (৳)</label><input id="turnoverRequired" required type="number" min="0" step="0.01" placeholder="যেমন: 2000"></div>
+            <div class="field"><label>ইতোমধ্যে পূরণ হয়েছে (৳)</label><input id="turnoverCompleted" type="number" min="0" step="0.01" value="0" placeholder="যেমন: 500"></div>
+            <button class="btn green" type="submit">টার্নওভার সেট / আপডেট করুন</button>
+            <button class="btn secondary" type="button" id="turnoverLoadBtn" style="margin-top:8px">UID টার্নওভার দেখুন</button>
+            <div id="turnoverResult" class="notice" style="display:none;margin-top:12px"></div>
+          </form>
+        </div>
+        <div class="card"><div class="card-head"><h2>টার্নওভার কীভাবে কাজ করবে</h2></div><p class="muted">১. কাস্টমারের UID দিন।<br><br>২. গ্রাহককে দেখানোর মেসেজ লিখুন।<br><br>৩. মোট টার্নওভার টার্গেট দিন এবং প্রয়োজনে পূরণ হওয়া পরিমাণ আপডেট করুন।<br><br>৪. টার্গেট পূরণ না হওয়া পর্যন্ত ওয়েবসাইটের উত্তোলন ফর্মে টার্নওভার বার্তা দেখাবে এবং উত্তোলন আটকে থাকবে।</p></div>
+      </div>
+    </section>
+
+    <section id="page-account-tools" class="page">
+      <div class="card">
+        <div class="card-head"><h2>UID অ্যাকাউন্ট খুঁজুন ও পাসওয়ার্ড রিসেট</h2></div>
+        <p class="muted">UID দিয়ে কাস্টমার খুঁজে অ্যাকাউন্টের তথ্য দেখুন। পাসওয়ার্ড দেখানো হবে না; নতুন পাসওয়ার্ড সেট করা যাবে।</p>
+        <div class="field"><label>কাস্টমার UID</label><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="accountToolsUid" placeholder="কাস্টমার UID লিখুন" style="flex:1;min-width:180px"><button class="btn" id="accountToolsSearch" type="button">UID খুঁজুন</button></div></div>
+        <div id="accountToolsResult" class="notice" style="display:none;white-space:normal"></div>
+        <div class="grid2" style="margin-top:16px">
+          <div class="field"><label>নতুন লগইন পাসওয়ার্ড</label><input id="resetLoginPassword" type="password" autocomplete="new-password" placeholder="নতুন লগইন পাসওয়ার্ড"></div>
+          <div class="field"><label>নতুন উত্তোলন/লেনদেন পাসওয়ার্ড</label><input id="resetTransactionPassword" type="password" autocomplete="new-password" placeholder="নতুন উত্তোলন পাসওয়ার্ড"></div>
+        </div>
+        <p class="muted">যে পাসওয়ার্ড বদলাতে চান শুধু সেই ঘরটি পূরণ করুন। কমপক্ষে ৬ অক্ষর ব্যবহার করুন।</p>
+        <button class="btn purple" id="saveAccountPasswordReset" type="button">নতুন পাসওয়ার্ড সেভ করুন</button>
+      </div>
+    </section>
+
+    <footer class="muted" style="margin-top:24px">BETBAJI777 Admin • NX Security System</footer>
+  </main>
+</div>
+
+<!-- PREMIUM CENTER SCREEN POPUP MODAL (ALERT + CONFIRM) -->
+<div id="popupOverlay" class="popup-overlay hidden">
+  <div id="popupGlow" class="popup-glow">
+    <div class="popup-box">
+      <div id="popupIcon" class="popup-icon">✓</div>
+      <h3 id="popupTitle" class="popup-title">সফল হয়েছে!</h3>
+      <p id="popupMsg" class="popup-msg"></p>
+      <div id="popupActions" class="popup-actions">
+        <button id="popupCancelBtn" class="popup-cancel-btn hidden" type="button">বাতিল</button>
+        <button id="popupCloseBtn" class="popup-btn" type="button">ঠিক আছে</button>
+      </div>
+      <div id="popupBar" class="popup-bar"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, get, update, onValue, runTransaction, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC946xmvd08c8571zBJ9_Gn2EK_lkA-jpw",
+  authDomain: "signal-app-ad9bd.firebaseapp.com",
+  databaseURL: "https://signal-app-ad9bd-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "signal-app-ad9bd",
+  storageBucket: "signal-app-ad9bd.firebasestorage.app",
+  messagingSenderId: "499328541328",
+  appId: "1:499328541328:web:8336578f01e75a5f4b2e15",
+  measurementId: "G-92P6QG25Z6"
+};
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const $ = id => document.getElementById(id);
+let usersData = {}, transactionsData = {}, allRequests = [], settingsData = {};
+let unsubUsers = null, unsubTransactions = null, unsubSettings = null, expiryInterval = null;
+let confirmResolver = null;
+
+// ATTRACTIVE CENTER-SCREEN POPUP FUNCTION
+function toast(msg, bad=false) {
+  confirmResolver = null;
+  const overlay = $('popupOverlay');
+  const glow = $('popupGlow');
+  const icon = $('popupIcon');
+  const title = $('popupTitle');
+  const msgEl = $('popupMsg');
+  const bar = $('popupBar');
+  const cancelBtn = $('popupCancelBtn');
+  const closeBtn = $('popupCloseBtn');
+
+  glow.classList.remove('error', 'confirm');
+  if(bad) glow.classList.add('error');
+
+  icon.textContent = bad ? '✕' : '✓';
+  title.textContent = bad ? 'সতর্কতা / ত্রুটি' : 'সফলভাবে সম্পন্ন!';
+  msgEl.textContent = msg;
+
+  cancelBtn.classList.add('hidden');
+  closeBtn.textContent = 'ঠিক আছে';
+  bar.classList.remove('hidden');
+
+  bar.style.animation = 'none';
+  bar.offsetHeight;
+  bar.style.animation = 'barShrink 2.8s linear forwards';
+
+  overlay.classList.remove('hidden');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => {
+    overlay.classList.add('hidden');
+  }, 2800);
+}
+
+// ATTRACTIVE CENTER-SCREEN CONFIRM MODAL (REPLACES BROWSER confirm())
+function showConfirm(msg, titleText='নিশ্চিত করুন') {
+  return new Promise(resolve => {
+    clearTimeout(toast._t);
+    confirmResolver = resolve;
+
+    const overlay = $('popupOverlay');
+    const glow = $('popupGlow');
+    const icon = $('popupIcon');
+    const title = $('popupTitle');
+    const msgEl = $('popupMsg');
+    const bar = $('popupBar');
+    const cancelBtn = $('popupCancelBtn');
+    const closeBtn = $('popupCloseBtn');
+
+    glow.classList.remove('error');
+    glow.classList.add('confirm');
+
+    icon.textContent = '?';
+    title.textContent = titleText;
+    msgEl.textContent = msg;
+
+    bar.classList.add('hidden');
+    cancelBtn.classList.remove('hidden');
+    cancelBtn.textContent = 'বাতিল';
+    closeBtn.textContent = 'নিশ্চিত করুন';
+
+    overlay.classList.remove('hidden');
+  });
+}
+
+$('popupCloseBtn').addEventListener('click', () => {
+  clearTimeout(toast._t);
+  $('popupOverlay').classList.add('hidden');
+  if(confirmResolver){
+    const fn = confirmResolver;
+    confirmResolver = null;
+    fn(true);
+  }
+});
+
+$('popupCancelBtn').addEventListener('click', () => {
+  clearTimeout(toast._t);
+  $('popupOverlay').classList.add('hidden');
+  if(confirmResolver){
+    const fn = confirmResolver;
+    confirmResolver = null;
+    fn(false);
+  }
+});
+
+$('popupOverlay').addEventListener('click', e => {
+  if(e.target === $('popupOverlay')){
+    clearTimeout(toast._t);
+    $('popupOverlay').classList.add('hidden');
+    if(confirmResolver){
+      const fn = confirmResolver;
+      confirmResolver = null;
+      fn(false);
+    }
+  }
+});
+
+function money(n){ return '৳'+(Number(n)||0).toLocaleString('en-BD',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function safe(v){ return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function niceStatus(s){ const x=String(s||'pending').toLowerCase(); return ({pending:'অপেক্ষমাণ',processing:'প্রসেসিং',approved:'সম্পন্ন',success:'সম্পন্ন',rejected:'ক্যানসেল',failed:'ব্যর্থ'})[x]||x; }
+function statusClass(s){ return ['approved','success','rejected','failed','processing'].includes(String(s||'').toLowerCase())?String(s).toLowerCase():'pending'; }
+function timeLabel(v){ if(!v)return '—'; const d=new Date(v); return Number.isNaN(d.getTime())?String(v):d.toLocaleString('bn-BD',{dateStyle:'short',timeStyle:'short'}); }
+function getUserName(uid,u){return u?.name||u?.username||u?.phone||u?.email||uid;}
+function normalizeNumbers(input, type){return input.split(',').map(s=>s.trim()).filter(Boolean).map(number=>({number,type}));}
+
+// UNIQUE DEVICE FINGERPRINT FOR ADMIN LOCK
+function getDeviceId(){
+  let id = localStorage.getItem('nx_admin_device_id');
+  if(!id){
+    id = 'NX-' + Math.random().toString(36).substring(2,10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
+    localStorage.setItem('nx_admin_device_id', id);
+  }
+  return id;
+}
+
+// PERSISTENT SESSION HELPERS & AUTO-LOGOUT ON EXPIRY
+function forceLogout(reasonMsg){
+  localStorage.removeItem('nx_admin_session');
+  if(expiryInterval) clearInterval(expiryInterval);
+  $('app').classList.add('hidden');
+  $('login').classList.remove('hidden');
+  $('adminPasswordInput').value = '';
+  const btn = $('loginSubmitBtn');
+  btn.disabled = false;
+  btn.textContent = 'প্যানেলে প্রবেশ করুন →';
+  if(reasonMsg) toast(reasonMsg, true);
+}
+
+function startExpiryWatcher(sessionObj){
+  if(expiryInterval) clearInterval(expiryInterval);
+  expiryInterval = setInterval(async () => {
+    const raw = localStorage.getItem('nx_admin_session');
+    if(!raw){ forceLogout(); return; }
+    let sess;
+    try{ sess = JSON.parse(raw); }catch(e){ forceLogout(); return; }
+
+    if(sess.expiresAt && new Date(sess.expiresAt) <= new Date()){
+      forceLogout('আপনার পাসওয়ার্ডের মেয়াদ শেষ হয়ে গেছে! অটোমেটিক লগআউট করা হয়েছে।');
+      return;
+    }
+
+    try{
+      const snap = await get(ref(db, `admin_panel_keys/${sess.keyId}`));
+      if(!snap.exists()){
+        forceLogout('আপনার এক্সেস পাসওয়ার্ডটি বাতিল করা হয়েছে! লগআউট করা হলো।');
+        return;
+      }
+      const liveData = snap.val();
+      if(liveData.expiresAt && new Date(liveData.expiresAt) <= new Date()){
+        forceLogout('আপনার পাসওয়ার্ডের মেয়াদ শেষ হয়ে গেছে! অটোমেটিক লগআউট করা হয়েছে।');
+        return;
+      }
+      if(Number(liveData.deviceLimit) === 1 && liveData.boundDeviceId && liveData.boundDeviceId !== getDeviceId()){
+        forceLogout('এই পাসওয়ার্ডটি অন্য ডিভাইসে স্থানান্তর করা হয়েছে!');
+        return;
+      }
+    }catch(err){}
+  }, 5000);
+}
+
+// KEY-BASED ADMIN LOGIN SYSTEM
+$('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const passInput = $('adminPasswordInput').value.trim();
+  const btn = $('loginSubmitBtn');
+  if(!passInput){ toast('পাসওয়ার্ড লিখুন', true); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'যাচাই করা হচ্ছে...';
+
+  try {
+    const safeKey = passInput.replace(/[.#$\[\]\/]/g, '_');
+    const snap = await get(ref(db, `admin_panel_keys/${safeKey}`));
+    let keyData = snap.exists() ? snap.val() : null;
+
+    if(!keyData){
+      const allSnap = await get(ref(db, 'admin_panel_keys'));
+      if(allSnap.exists()){
+        const allKeys = Object.values(allSnap.val());
+        keyData = allKeys.find(k => k && k.password === passInput);
+      }
+    }
+
+    if(!keyData){
+      toast('ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন।', true);
+      btn.disabled = false;
+      btn.textContent = 'প্যানেলে প্রবেশ করুন →';
+      return;
+    }
+
+    if(keyData.expiresAt && new Date(keyData.expiresAt) <= new Date()){
+      toast('এই পাসওয়ার্ডটির মেয়াদ শেষ হয়ে গেছে!', true);
+      btn.disabled = false;
+      btn.textContent = 'প্যানেলে প্রবেশ করুন →';
+      return;
+    }
+
+    const devId = getDeviceId();
+    const keyId = keyData.id || safeKey;
+    if(Number(keyData.deviceLimit) === 1){
+      if(keyData.boundDeviceId && keyData.boundDeviceId !== devId){
+        toast('এই পাসওয়ার্ডটি অন্য একটি ডিভাইসে লক করা আছে!', true);
+        btn.disabled = false;
+        btn.textContent = 'প্যানেলে প্রবেশ করুন →';
+        return;
+      }
+      if(!keyData.boundDeviceId){
+        await update(ref(db, `admin_panel_keys/${keyId}`), {
+          boundDeviceId: devId,
+          lastLoginAt: new Date().toISOString()
+        });
+      }
+    }
+
+    const sessionPayload = {
+      unlocked: true,
+      keyId: keyId,
+      expiresAt: keyData.expiresAt || null,
+      loginAt: new Date().toISOString()
+    };
+    localStorage.setItem('nx_admin_session', JSON.stringify(sessionPayload));
+
+    $('login').classList.add('hidden');
+    $('app').classList.remove('hidden');
+    toast('সফলভাবে অ্যাডমিন প্যানেলে প্রবেশ করেছেন!');
+    startListeners();
+    startExpiryWatcher(sessionPayload);
+  } catch(err) {
+    toast('লগইন ত্রুটি: ' + err.message, true);
+    btn.disabled = false;
+    btn.textContent = 'প্যানেলে প্রবেশ করুন →';
+  }
+});
+
+$('logoutBtn').addEventListener('click', async ()=>{
+  const ok = await showConfirm('আপনি কি অ্যাডমিন প্যানেল থেকে লগআউট করতে চান?', 'লগআউট নিশ্চিতকরণ');
+  if(ok){
+    forceLogout('সফলভাবে লগআউট সম্পন্ন হয়েছে।');
+  }
+});
+
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  $('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+  $('pageTitle').textContent=({dashboard:'ড্যাশবোর্ড',requests:'ডিপোজিট / উইথড্র রিকোয়েস্ট',payments:'বিকাশ / নগদ নম্বর সেটিংস',balance:'ব্যালেন্স কন্ট্রোল',turnover:'UID টার্নওভার','account-tools':'UID অ্যাকাউন্ট / পাসওয়ার্ড রিসেট'})[name]||name;
+  if(name==='requests') renderRequests();
+}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.goto)));
+
+let renderQueued = false;
+function scheduleRenderAll(){
+  if(renderQueued) return;
+  renderQueued = true;
+  requestAnimationFrame(()=>{
+    renderQueued = false;
+    renderAll();
+  });
+}
+
+function startListeners(){
+  $('connectionText').textContent='লাইভ সংযুক্ত';
+  unsubUsers=onValue(ref(db,'users'),snap=>{usersData=snap.exists()?snap.val():{}; scheduleRenderAll();},err=>{ $('connectionText').textContent='সংযোগ সমস্যা';toast('ইউজার ডেটা পড়া যায়নি: '+err.message,true);});
+  unsubTransactions=onValue(ref(db,'transactions'),snap=>{transactionsData=snap.exists()?snap.val():{};scheduleRenderAll();},err=>toast('লেনদেন ডেটা পড়া যায়নি: '+err.message,true));
+  unsubSettings=onValue(ref(db,'settings'),snap=>{settingsData=snap.exists()?snap.val():{};fillPaymentFields();},err=>toast('সেটিংস পড়া যায়নি: '+err.message,true));
+}
+
+function collectRequests(){
+  const out=[];
+  for(const [uid,groups] of Object.entries(transactionsData||{})){
+    for(const [type,key] of [['deposit','deposits'],['withdrawal','withdrawals']]){
+      const list=groups?.[key]||{};
+      for(const [id,item] of Object.entries(list)){
+        if(!item||typeof item!=='object')continue;
+        out.push({...item,uid,type,id,user:usersData?.[uid]||{}});
+      }
+    }
+  }
+  out.sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
+  return out;
+}
+
+function renderAll(){
+  allRequests=collectRequests();
+  $('statUsers').textContent=Object.keys(usersData||{}).length.toLocaleString('en-BD');
+  $('statDeposits').textContent=allRequests.filter(x=>x.type==='deposit'&&String(x.status||'pending').toLowerCase()==='pending').length.toLocaleString('en-BD');
+  $('statWithdrawals').textContent=allRequests.filter(x=>x.type==='withdrawal'&&String(x.status||'pending').toLowerCase()==='pending').length.toLocaleString('en-BD');
+  $('statBalance').textContent=money(Object.values(usersData||{}).reduce((sum,u)=>sum+(Number(u?.balance)||0),0));
+  renderRecent('deposit','recentDeposits');renderRecent('withdrawal','recentWithdrawals');renderRequests();
+}
+
+function renderRecent(type,target){
+  const items=allRequests.filter(x=>x.type===type).slice(0,5);
+  $(target).innerHTML=items.length?`<table><thead><tr><th>কাস্টমার</th><th>পরিমাণ</th><th>স্ট্যাটাস</th></tr></thead><tbody>${items.map(x=>`<tr><td>${safe(getUserName(x.uid,x.user))}<br><small class="muted">${safe(x.uid)}</small></td><td class="amount">${money(x.amount)}</td><td><span class="status ${statusClass(x.status)}">${niceStatus(x.status)}</span></td></tr>`).join('')}</tbody></table>`:'<div class="empty">এখনো কোনো রিকোয়েস্ট নেই</div>';
+}
+
+function renderRequests(){
+  if(!$('allRequests'))return;
+  const type=$('requestType').value,status=$('requestStatus').value,search=$('requestSearch').value.trim().toLowerCase();
+  const items=allRequests.filter(x=>(type==='all'||x.type===type)&&(status==='all'?true:String(x.status||'pending').toLowerCase()===status)&&(!search||[x.uid,x.trxid,x.charge_trx_id,x.orderId,x.order_id,x.wallet,x.methodLabel,getUserName(x.uid,x.user)].some(v=>String(v||'').toLowerCase().includes(search))));
+  $('requestCount').textContent=items.length+' রিকোয়েস্ট';
+  if(!items.length){$('allRequests').innerHTML='<div class="empty">এই ফিল্টারে কোনো রিকোয়েস্ট পাওয়া যায়নি</div>';return;}
+  $('allRequests').innerHTML=`<div class="request-cards">${items.map(x=>{
+    const st=String(x.status||'pending').toLowerCase(),pending=st==='pending';
+    const label=x.type==='deposit'?'ডিপোজিট':'উইথড্র';
+    const info=x.type==='deposit'?`${safe(x.methodLabel||x.method||'—')}<br>Transaction ID: <b>${safe(x.trxid||'—')}</b>`:`${safe(x.method||'—')}<br>ওয়ালেট: ${safe(x.wallet||'—')}<br>Transaction ID: <b>${safe(x.charge_trx_id||x.trxid||'—')}</b>`;
+    return `<article class="request-card"><div class="request-card-top"><b>${label}</b><span class="status ${statusClass(st)}">${niceStatus(st)}</span></div><div class="request-card-amount">${money(x.amount)}${x.bonusAmount?` <small>+ বোনাস ${money(x.bonusAmount)}</small>`:''}</div><div class="request-card-grid"><div><small>কাস্টমার / UID</small><b>${safe(getUserName(x.uid,x.user))}</b><code>${safe(x.uid)}</code></div><div><small>Order ID</small><b>${safe(x.orderId||x.order_id||x.id)}</b></div></div><div class="request-card-info">${info}</div><div class="request-card-meta">রিকোয়েস্টের সময়: ${timeLabel(x.created_at)}</div>${x.admin_message?`<div class="request-admin-message">এডমিন মেসেজ: ${safe(x.admin_message)}</div>`:''}<div class="request-actions">${pending?`<button class="btn secondary small" data-action="processing" data-type="${x.type}" data-uid="${safe(x.uid)}" data-id="${safe(x.id)}">প্রসেসিং</button><button class="btn green small" data-action="approve" data-type="${x.type}" data-uid="${safe(x.uid)}" data-id="${safe(x.id)}">${x.type==='deposit'?'সম্পন্ন করে ব্যালেন্স দিন':'উইথড্র সম্পন্ন'}</button><button class="btn red small" data-action="reject" data-type="${x.type}" data-uid="${safe(x.uid)}" data-id="${safe(x.id)}">রিজেক্ট / ক্যানসেল</button>`:`<button class="btn secondary small" data-action="reopen" data-type="${x.type}" data-uid="${safe(x.uid)}" data-id="${safe(x.id)}">আবার পেন্ডিং করুন</button>`}</div></article>`;
+  }).join('')}</div>`;
+}
+
+$('requestType').addEventListener('change',renderRequests);$('requestStatus').addEventListener('change',renderRequests);$('requestSearch').addEventListener('input',renderRequests);
+$('refreshRequestsBtn')?.addEventListener('click',async()=>{try{const snap=await get(ref(db,'transactions'));transactionsData=snap.exists()?snap.val():{};const us=await get(ref(db,'users'));usersData=us.exists()?us.val():{};renderAll();toast('রিকোয়েস্ট রিফ্রেশ হয়েছে');}catch(err){toast('রিকোয়েস্ট লোড হয়নি: '+err.message,true);}});
+
+$('allRequests').addEventListener('click',async e=>{
+  const b=e.target.closest('button[data-action]');if(!b)return;
+  const {action,type,uid,id}=b.dataset; if(!uid||!id||!['approve','reject','processing','reopen'].includes(action))return;
+  if(action==='processing'||action==='reopen'){
+    const next=action==='processing'?'processing':'pending';
+    const ok = await showConfirm(`রিকোয়েস্টের স্ট্যাটাস ${next==='processing'?'প্রসেসিং':'পেন্ডিং'} করবেন?`, 'স্ট্যাটাস পরিবর্তন');
+    if(!ok)return;
+    b.disabled=true;try{await update(ref(db,`transactions/${uid}/${type==='deposit'?'deposits':'withdrawals'}/${id}`),{status:next,admin_processing_at:next==='processing'?new Date().toISOString():null,admin_action_at:new Date().toISOString()});toast('স্ট্যাটাস আপডেট হয়েছে');}
+    catch(err){toast('স্ট্যাটাস আপডেট হয়নি: '+err.message,true);b.disabled=false;}return;
+  }
+  const ok = await showConfirm(`${type==='deposit'?'ডিপোজিট':'উইথড্র'} রিকোয়েস্ট ${action==='approve'?(type==='deposit'?'অনুমোদন করে ব্যালেন্স যোগ':'উইথড্র সম্পন্ন'):'রিজেক্ট / ক্যানসেল'} করবেন?`, 'রিকোয়েস্ট নিশ্চিতকরণ');
+  if(!ok)return;
+  let reason='', payoutTrx=''; if(action==='reject'){reason=prompt('কেন ক্যানসেল করছেন? কাস্টমারকে দেখানোর মেসেজ লিখুন:','আপনার রিকোয়েস্টটি ক্যানসেল করা হয়েছে।')||''; if(!reason.trim()){toast('ক্যানসেল করার কারণ লিখুন',true);return;}} if(action==='approve'&&type==='withdrawal'){payoutTrx=prompt('উত্তোলন সম্পন্ন করার Transaction ID লিখুন (না থাকলে ফাঁকা রাখুন):','')||'';}
+  b.disabled=true;try{await decideRequest(type,uid,id,action,reason,payoutTrx);toast('রিকোয়েস্ট আপডেট হয়েছে');}
+  catch(err){toast('কাজটি সম্পন্ন হয়নি: '+err.message,true);b.disabled=false;}
+});
+
+async function decideRequest(type,uid,id,action,reason='',payoutTrx=''){
+  const path=`transactions/${uid}/${type==='deposit'?'deposits':'withdrawals'}/${id}`;
+  const txRef=ref(db,path);
+  const claim=await runTransaction(txRef,current=>{
+    if(!current||!['pending','processing'].includes(String(current.status||'pending').toLowerCase()))return;
+    return {...current,status:'processing',admin_processing_at:new Date().toISOString()};
+  });
+  if(!claim.committed)throw new Error('রিকোয়েস্ট আর পেন্ডিং নেই; রিফ্রেশ করুন');
+  const item=claim.snapshot.val();
+  let balanceChanged=false;
+  try{
+    if(action==='approve'&&type==='deposit'){
+      const credit=(Number(item.amount)||0)+(Number(item.bonusAmount)||0);
+      if(credit>0){await changeBalance(uid,credit,'Deposit approved: '+id);balanceChanged=true;}
+    } else if(action==='reject'&&type==='withdrawal'){
+      const refund=Number(item.amount)||0;
+      if(refund>0){await changeBalance(uid,refund,'Withdrawal rejected/refund: '+id);balanceChanged=true;}
+    }
+    await update(txRef,{status:action==='approve'?'approved':'rejected',admin_action:action,admin_message:action==='reject'?reason:'',...(type==='withdrawal'&&action==='approve'?{trxid:payoutTrx,charge_trx_id:payoutTrx}:{}),admin_action_at:new Date().toISOString()});
+    try{await push(ref(db,'admin_logs'),{action:`${type}_${action}`,uid,requestId:id,amount:Number(item.amount)||0,at:new Date().toISOString()});}catch(logError){console.warn('Admin log could not be written',logError);}
+  }catch(err){
+    if(!balanceChanged){try{await update(txRef,{status:'pending',admin_processing_at:null});}catch(e){}}
+    else {throw new Error('ব্যালেন্স পরিবর্তন হয়েছে কিন্তু রিকোয়েস্ট স্ট্যাটাস সেভে সমস্যা হয়েছে।');}
+    throw err;
+  }
+}
+
+async function changeBalance(uid,delta,note){
+  const balanceRef=ref(db,`users/${uid}/balance`);
+  const result=await runTransaction(balanceRef,current=>{
+    const n=Number(current)||0, next=n+Number(delta);
+    if(!Number.isFinite(next)||next<0)return;
+    return Math.round(next*100)/100;
+  });
+  if(!result.committed)throw new Error('ব্যালেন্স আপডেট করা যায়নি / ব্যালেন্স অপর্যাপ্ত');
+  try{await push(ref(db,'admin_logs'),{action:'balance_change',uid,delta:Number(delta),balance:Number(result.snapshot.val())||0,note,at:new Date().toISOString()});}catch(logError){}
+}
+
+function fillPaymentFields(){
+  for(const method of ['bkash','nagad']){
+    const s=settingsData?.[method]||{};
+    const nums=Array.isArray(s.numbers)?s.numbers:(s.number?[{number:s.number,type:s.type||'personal'}]:[]);
+    const personal=nums.filter(x=>typeof x==='object'&&String(x.type||x.numberType||x.accountType||'').toLowerCase().includes('personal')).map(x=>x.number||x.phone||'');
+    const agent=nums.filter(x=>typeof x==='object'&&String(x.type||x.numberType||x.accountType||'').toLowerCase().includes('agent')).map(x=>x.number||x.phone||'');
+    $(method+'Personal').value=personal.join(', ');
+    $(method+'Agent').value=agent.join(', ');
+  }
+}
+
+async function loadPaymentSettings(){
+  const snap=await get(ref(db,'settings'));settingsData=snap.exists()?snap.val():{};fillPaymentFields();
+}
+$('reloadPayments')?.addEventListener('click',async()=>{try{await loadPaymentSettings();toast('পেমেন্ট সেটিংস রিলোড হয়েছে');}catch(e){toast('সেটিংস লোড হয়নি: '+e.message,true);}});
+
+$('savePayments')?.addEventListener('click',async()=>{
+  const bkash={...(settingsData.bkash||{}),numbers:[...normalizeNumbers($('bkashPersonal').value,'personal'),...normalizeNumbers($('bkashAgent').value,'agent')]};
+  const nagad={...(settingsData.nagad||{}),numbers:[...normalizeNumbers($('nagadPersonal').value,'personal'),...normalizeNumbers($('nagadAgent').value,'agent')]};
+  if(!bkash.numbers.length||!nagad.numbers.length){
+    const ok = await showConfirm('কোনো পেমেন্ট টাইপের নম্বর খালি আছে। তবুও সেভ করবেন?', 'সেটিংস সতর্কতা');
+    if(!ok)return;
+  }
+  try{await update(ref(db,'settings'),{bkash,nagad});toast('বিকাশ ও নগদ নম্বর সেভ হয়েছে');}
+  catch(e){toast('সেভ হয়নি: '+e.message,true);}
+});
+
+$('lookupBalanceBtn')?.addEventListener('click',async()=>{
+  const uid=$('balanceUid').value.trim(), box=$('balanceLookupResult');
+  if(!uid){toast('আগে কাস্টমার UID লিখুন',true);return;}
+  box.style.display='block';box.textContent='ব্যালেন্স খোঁজা হচ্ছে…';
+  try{
+    const snap=await get(ref(db,`users/${uid}`));
+    if(!snap.exists()){box.textContent='এই UID-এর কোনো অ্যাকাউন্ট পাওয়া যায়নি।';toast('UID পাওয়া যায়নি',true);return;}
+    const u=snap.val()||{}, bal=Number(u.balance)||0;
+    box.innerHTML=`<b>অ্যাকাউন্ট পাওয়া গেছে</b><br>নাম: ${safe(getUserName(uid,u))}<br>UID: <code>${safe(uid)}</code><br><span style="font-size:20px;font-weight:900;color:#20c997">বর্তমান ব্যালেন্স: ${money(bal)}</span>`;
+  }catch(err){box.textContent='ব্যালেন্স দেখা যায়নি: '+err.message;toast('ব্যালেন্স পড়া যায়নি',true);}
+});
+
+$('balanceForm')?.addEventListener('submit',async e=>{
+  e.preventDefault();const uid=$('balanceUid').value.trim(),amt=Number($('balanceAmount').value),action=$('balanceAction').value,note=$('balanceNote').value.trim();
+  if(!uid||!Number.isFinite(amt)||amt<=0){toast('UID ও সঠিক পরিমাণ দিন',true);return;}
+  let accountSnap;try{accountSnap=await get(ref(db,`users/${uid}`));}catch(readErr){toast('UID যাচাই করা যায়নি: '+readErr.message,true);return;}
+  if(!accountSnap.exists()){toast('এই UID পাওয়া যায়নি',true);return;}
+  const ok = await showConfirm(`${uid} এর ব্যালেন্স ${action==='add'?'যোগ':'কমিয়ে'} ${money(amt)} করবেন?`, 'ব্যালেন্স আপডেট নিশ্চিতকরণ');
+  if(!ok)return;
+  try{const delta=action==='add'?amt:-amt;await changeBalance(uid,delta,note||'Manual admin adjustment');toast('ব্যালেন্স সফলভাবে আপডেট হয়েছে');const fresh=await get(ref(db,`users/${uid}`));const box=$('balanceLookupResult');box.style.display='block';const u=fresh.val()||{};box.innerHTML=`<b>ব্যালেন্স আপডেট সফল</b><br>নাম: ${safe(getUserName(uid,u))}<br>UID: <code>${safe(uid)}</code><br><span style="font-size:20px;font-weight:900;color:#20c997">নতুন ব্যালেন্স: ${money(u.balance)}</span>`;$('balanceAmount').value='';$('balanceNote').value='';}
+  catch(err){toast('ব্যালেন্স আপডেট হয়নি: '+err.message,true);}
+});
+
+$('turnoverLoadBtn')?.addEventListener('click',async()=>{
+ const uid=$('turnoverUid').value.trim(); if(!uid){toast('কাস্টমার UID দিন',true);return;}
+ try{const snap=await get(ref(db,`users/${uid}`));if(!snap.exists()){toast('এই UID পাওয়া যায়নি',true);return;}
+ const u=snap.val()||{},t=u.turnover||{};$('turnoverRequired').value=Number(t.required??u.turnoverRequired??0);$('turnoverCompleted').value=Number(t.completed??u.turnoverCompleted??0);$('turnoverMessage').value=String(t.message??u.turnoverMessage??'');
+ $('turnoverResult').style.display='block';$('turnoverResult').innerHTML=`UID: <code>${safe(uid)}</code><br>টার্গেট: ${money($('turnoverRequired').value)}<br>পূরণ: ${money($('turnoverCompleted').value)}<br>বাকি: ${money(Math.max(0,Number($('turnoverRequired').value)-Number($('turnoverCompleted').value)))}`;
+ }catch(e){toast('টার্নওভার পড়া যায়নি: '+e.message,true);}
+});
+$('turnoverForm')?.addEventListener('submit',async e=>{
+ e.preventDefault();const uid=$('turnoverUid').value.trim(),required=Number($('turnoverRequired').value),completed=Number($('turnoverCompleted').value||0),message=$('turnoverMessage').value.trim();
+ if(!uid||!Number.isFinite(required)||required<0||!Number.isFinite(completed)||completed<0){toast('সঠিক UID ও টাকার পরিমাণ দিন',true);return;}
+ try{const account=await get(ref(db,`users/${uid}`));if(!account.exists()){toast('এই UID পাওয়া যায়নি',true);return;}
+ const data={required,completed,message,updatedAt:new Date().toISOString()};await update(ref(db,`users/${uid}`),{turnover:data,turnoverRequired:required,turnoverCompleted:completed,turnoverMessage:message});
+ $('turnoverResult').style.display='block';$('turnoverResult').innerHTML=`<b>টার্নওভার আপডেট সফল</b><br>UID: <code>${safe(uid)}</code><br>টার্গেট: ${money(required)}<br>পূরণ: ${money(completed)}<br>বাকি: ${money(Math.max(0,required-completed))}`;toast('UID টার্নওভার আপডেট হয়েছে');
+ }catch(err){toast('টার্নওভার আপডেট হয়নি: '+err.message,true);}
+});
+
+let accountToolsLoadedUser = null;
+$('accountToolsSearch')?.addEventListener('click', async()=>{
+ const uid=$('accountToolsUid').value.trim(), box=$('accountToolsResult');
+ if(!uid){toast('কাস্টমার UID দিন',true);return;}
+ box.style.display='block';box.textContent='অ্যাকাউন্ট খোঁজা হচ্ছে…';
+ try{
+   const snap=await get(ref(db,`users/${uid}`));
+   if(!snap.exists()){accountToolsLoadedUser=null;box.textContent='এই UID-এর অ্যাকাউন্ট পাওয়া যায়নি।';toast('UID পাওয়া যায়নি',true);return;}
+   const u=snap.val()||{};accountToolsLoadedUser=uid;
+   box.innerHTML=`<b>অ্যাকাউন্ট পাওয়া গেছে</b><br>UID: <b>${safe(uid)}</b><br>নাম: ${safe(getUserName(uid,u))}<br>মোবাইল: ${safe(u.phone||'—')}<br>ব্যালেন্স: ${money(u.balance||0)}`;
+   toast('কাস্টমার অ্যাকাউন্ট পাওয়া গেছে');
+ }catch(err){accountToolsLoadedUser=null;box.textContent='অ্যাকাউন্ট খোঁজা যায়নি: '+err.message;}
+});
+$('saveAccountPasswordReset')?.addEventListener('click',async()=>{
+ const uid=$('accountToolsUid').value.trim(), login=$('resetLoginPassword').value, txn=$('resetTransactionPassword').value;
+ if(!uid||accountToolsLoadedUser!==uid){toast('আগে UID খুঁজে অ্যাকাউন্ট যাচাই করুন',true);return;}
+ if(!login&&!txn){toast('যে পাসওয়ার্ড বদলাবেন সেটি লিখুন',true);return;}
+ try{
+   const patch={}; if(login)patch.password=login; if(txn)patch.transactionPassword=txn;
+   await update(ref(db,`users/${uid}`),patch);
+   $('resetLoginPassword').value='';$('resetTransactionPassword').value='';
+   toast('নতুন পাসওয়ার্ড সেভ হয়েছে');
+ }catch(err){toast('পাসওয়ার্ড আপডেট হয়নি: '+err.message,true);}
+});
+
+// RESTORE SAVED LOGIN SESSION ON PAGE LOAD (IF NOT EXPIRED)
+(function initSession(){
+  const raw = localStorage.getItem('nx_admin_session');
+  if(!raw) return;
+  try{
+    const sess = JSON.parse(raw);
+    if(sess && sess.unlocked){
+      if(sess.expiresAt && new Date(sess.expiresAt) <= new Date()){
+        localStorage.removeItem('nx_admin_session');
+        return;
+      }
+      $('login').classList.add('hidden');
+      $('app').classList.remove('hidden');
+      startListeners();
+      startExpiryWatcher(sess);
+    }
+  }catch(e){
+    localStorage.removeItem('nx_admin_session');
+  }
+})();
+</script>
+</body>
+</html>
